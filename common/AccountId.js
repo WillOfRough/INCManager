@@ -13,7 +13,6 @@ class AccoundId {
             })
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response);
                     accoundId = response.sessions[0].account_id;
                 });
 

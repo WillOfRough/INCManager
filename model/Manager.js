@@ -20,15 +20,22 @@ class Manager {
             return 0;
         }
     }
-    async checkManager(user_id,service_code){
+    async checkManager(user_id,session_id){
         const connection = await IncMysql.user_db.getConnection();
         await connection.beginTransaction();
         try {
-            let _query = 'SELECT * FROM ma_group where user_id = ? and service_id = ?';
-            let _result = await connection.query(_query, [user_id,service_code]);
-            let user_id =_result[0][0].user_id;
+            let _query = 'SELECT * FROM manager_info where user_id = ?';
+            let _result = await connection.query(_query, user_id);
             connection.release();
-            return true;
+            if (_result[0].affectedRows==0) {
+                throw "myException";
+            }
+            if(_result[0][0].session_id == session_id){
+                return true;
+            }
+            else{
+                return false;
+            }
         } catch (error) {
             connection.release();
             return false;
@@ -54,23 +61,49 @@ class Manager {
             return false;
         }
     }
-    async login(password){
+    async login(userId,password){
+        let _password = crypto.createHash('sha256').update(password).digest('base64');
         const connection = await IncMysql.user_db.getConnection();
         await connection.beginTransaction();
         try{
-            let _query = '';
-            let _result = await connection.query(_query, password);
+            let _query = 'SELECT * FROM manager_info where user_id = ?';
+            let _result = await connection.query(_query, [userId]);
             connection.release();
-            if (_result) {
-                return true;
-            } else {
+            if (_result[0].affectedRows==0) {
                 return false;
+            } else {
+                if(_result[0][0].ma_password == _password){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
         }
         catch (error){
-
+            connection.release();
+            console.log(error);
+            return false;
         }
     }
-
+    async updateSession(userId,session_id){
+        const connection = await IncMysql.user_db.getConnection();
+        await connection.beginTransaction();
+        try{
+            let _query = 'UPDATE manager_info set session_id = ?  where user_id = ?';
+            let _result = await connection.query(_query, [session_id,userId]);
+            connection.release();
+            if (_result[0].affectedRows==0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        catch (error){
+            connection.release();
+            console.log(error);
+            return false;
+        }
+    }
 }
 module.exports = new Manager();

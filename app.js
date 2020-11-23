@@ -3,8 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require("express-session");
-var MySQLStore = require("express-mysql-session")(session);
 var dbConfig = require('./config/db.json');
 
 var indexRouter = require('./routes/index');
@@ -22,16 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(
-    session({
-      key: "session_cookie_name",
-      secret: "session_cookie_secret",
-      store: new MySQLStore(dbConfig.test),
-      resave: false,
-      saveUninitialized: true
-    })
-);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
