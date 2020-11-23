@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="manifest" href="manifest.json"/>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://space.malangmalang.com/v1/netffice.js"></script>
+<script src="/login.js"></script>
+<script src="/checkManager.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () { //실행될 코드 });
+        loginCheck();
+        if (getSessionId()) {
+            checkManager();
+            $('#pk').html("로그인 아이디 : " + getUserEmail());
+        } else {
+            $('#pk').html("로그아웃상태");
+        }
+    });
+
+    function loginCheck() {
+        if (isLoggedIn()) {
+            $('#login_button').hide();
+            $('#logout_button').show();
+        } else {
+            $('#login_button').show();
+            $('#logout_button').hide();
+        }
+    }
+
+    function loginButton() {
+        window.location.href = loginURL();
+    }
+
+    function logoutButton() {
+        localStorage.clear()
+        window.location.href = logoutURL();
+    }
+    var updateClickCount=(function(){
+        var counter=0;
+
+        return function(){
+            ++counter;
+        }
+    })();
+</script>
+<div id='login-button-place'></div>
+<span id='pk'>로그아웃 상태</span>
+<button id="login_button" onclick="loginButton()">로그인</button>
+<button id="logout_button" onclick="logoutButton()">로그아웃</button>
+
+<button id="logout_button" onclick="updateClickCount()">버튼1</button>
+<button id="logout_button" onclick="updateClickCount()">버튼2</button>
+</body>
+</html>
