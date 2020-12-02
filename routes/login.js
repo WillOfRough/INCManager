@@ -11,4 +11,7 @@ router.get('/manager', function(req, res, next) {
 router.get('/registration', function(req, res, next) {
     res.render('registration', { title: 'Manager' });
 });
+router.get('/', function(req, res, next) {
+    res.render('login', { title: 'login' });
+});
 module.exports = router;

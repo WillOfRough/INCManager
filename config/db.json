@@ -1,8 +1,8 @@
 {
   "test": {
-    "host": "localhost",
+    "host": "hancomtest.c0d1bhka4gti.ap-northeast-2.rds.amazonaws.com",
     "port": 3306,
-    "user": "root",
+    "user": "admin",
     "password": "12345678",
     "database": "INCTest"
   }

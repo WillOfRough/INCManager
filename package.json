@@ -7,7 +7,9 @@
   },
   "dependencies": {
     "add": "^2.0.6",
-    "cookie-parser": "~1.4.4",
+    "amdefine": "^1.0.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
@@ -15,9 +17,12 @@
     "express-mysql-session": "^2.1.4",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "node-fetch": "^2.6.1",
     "or": "^0.2.0",
+    "requirejs": "^2.3.6",
+    "uuid4": "^2.0.2",
     "yarn": "^1.22.10"
   },
   "devDependencies": {
